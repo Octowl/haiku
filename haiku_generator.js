@@ -1,3 +1,10 @@
 var haiku = require('./haiku');
 
-haiku.createHaiku([5,3,5]);
+function formatOutput(haiku) {
+  haiku.forEach(function(line) {
+    if (Array.isArray(line)) line = line.join(" ");
+    console.log(line);
+  });
+}
+
+formatOutput(haiku.createHaiku([5,7,5]));

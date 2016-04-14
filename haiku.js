@@ -50,7 +50,19 @@ function syllableCount(phonemes) {
 }
 
 function createHaiku(structure) {
-    console.log("this should log a haiku with the structure " + structure);
+  var haiku = [];
+  var line, index, wordList;
+  structure.forEach(function(syllableNum){
+    if(Array.isArray(syllableNum)) {
+      line = createHaiku(syllableNum);
+    } else {
+      wordList = syllableArray[syllableNum];
+      index = Math.floor(Math.random() * wordList.length);
+      line = wordList[index];
+    }
+    haiku.push(line);
+  });
+  return haiku;
 }
 
 module.exports.createHaiku = createHaiku;

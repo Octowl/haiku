@@ -30,8 +30,6 @@ function formatData(data) {
 
     lines.slice(0, -1).forEach(function(line) {
         parseLine(line, syllableArray);
-        // console.log("The word " + lineSplit[0] + " has this phoneme    layout: " + lineSplit[1]);
-        // console.log("It has " + syllableCount(lineSplit[1]) + " syllables");
     });
     writeToFile(syllableArray, "syllableArray.json");
     return syllableArray;

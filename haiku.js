@@ -1,6 +1,10 @@
 var fs = require('fs');
 var syllableArray = syllableArraySetup();
 
+String.prototype.clean = function(){
+  return this.replace(/[^A-Za-z]/g, '');
+}
+
 function syllableArraySetup(){
   var syllableArray;
 
@@ -64,3 +68,4 @@ function createHaiku(structure) {
 }
 
 module.exports.createHaiku = createHaiku;
+module.exports.findHaiku = findHaiku;

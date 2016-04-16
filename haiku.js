@@ -1,17 +1,15 @@
 var fs = require('fs');
-var syllableArray = syllableArraySetup();
+var syllableArray;
 
 String.prototype.clean = function(){
   return this.replace(/[^A-Za-z]/g, '');
 }
 
-function syllableArraySetup(){
-  var syllableArray;
-
+function syllableArraySetup(filename){
   try {
-    syllableArray = require('./syllableArray.json');
+    syllableArray = require("./" + filename.split(".")[0] + ".json");
   } catch (e) {
-    syllableArray = formatData(readCmudictFile('./cmudict.txt'))
+    syllableArray = formatData(readCmudictFile(filename))
   }
 
   return syllableArray;
@@ -19,6 +17,7 @@ function syllableArraySetup(){
 
 function readCmudictFile(file) {
     return fs.readFileSync(file).toString();
+    writeToFile(syllableArray, filename.split(".")[0] + ".json");
 }
 
 function writeToFile(obj, filename) {
@@ -35,7 +34,6 @@ function formatData(data) {
     lines.slice(0, -1).forEach(function(line) {
         parseLine(line, syllableArray);
     });
-    writeToFile(syllableArray, "syllableArray.json");
     return syllableArray;
 }
 
@@ -67,5 +65,6 @@ function createHaiku(structure) {
   return haiku;
 }
 
+module.exports.syllableArraySetup = syllableArraySetup;
 module.exports.createHaiku = createHaiku;
-module.exports.findHaiku = findHaiku;
+// module.exports.findHaiku = findHaiku;

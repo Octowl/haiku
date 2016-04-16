@@ -86,7 +86,7 @@ function createHaiku(structure) {
 }
 
 function foundStructure(lineEnds) {
-    var line,
+    var lineWeight,
         structure = [];
 
     for (var i = 1; i < lineEnds.length; i++) {
@@ -104,7 +104,7 @@ function findOneHaiku(lineEnds, structure) {
     while (!currStructure.equal(structure) && lineEnds[lineEnds.length - 1] < text.length) {
         currStructure = foundStructure(lineEnds);
         currStructure.forEach(function(lineWeight, i) {
-            if (lineWeight < structure[i]) {
+             if (lineWeight < structure[i]) {
                 lineEnds.forEach(function(_, j) {
                     if (j > i) {
                         lineEnds[j]++;
@@ -112,10 +112,9 @@ function findOneHaiku(lineEnds, structure) {
                 });
             } else if (lineWeight > structure[i]) {
                 lineEnds[i]++;
-            } else if (lineWeight === -1) {
-                lineEnds = [].range(structure.length + 1, lineEnds[i + 1]);
             }
         });
+        // console.log(currStructure);
     }
 
     if (lineEnds[lineEnds.length - 1] < text.length) {
@@ -133,11 +132,10 @@ function extractHaiku(lineEnds) {
     return haiku;
 }
 
-function findHaikus(structure) {
+function findHaikus(callback, structure) {
     var haikus = [];
     var haiku;
     var lineEnds;
-
 
     structure = structure || [5, 7, 5];
     lineEnds = [].range(structure.length + 1);
@@ -145,11 +143,11 @@ function findHaikus(structure) {
     while (lineEnds[lineEnds.length - 1] < text.length) {
         haiku = findOneHaiku(lineEnds, structure);
         if (haiku) {
+          callback(haiku);
             haikus.push(haiku);
             lineEnds = [].range(structure.length + 1, lineEnds[0] + 1);
         }
     }
-    console.log(haikus);
     return haikus;
 }
 

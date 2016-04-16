@@ -1,33 +1,20 @@
 var fs = require('fs');
+
 var syllableArray;
 
 String.prototype.clean = function(){
   return this.replace(/[^A-Za-z]/g, '');
 }
 
-function syllableArraySetup(filename){
-  try {
-    syllableArray = require("./" + filename.split(".")[0] + ".json");
-  } catch (e) {
-    syllableArray = formatData(readCmudictFile(filename))
-  }
-
-  return syllableArray;
+function syllableArraySetup(dictFile, text){
+  syllableArray = formatData(readCmudictFile(dictFile), text);
 }
 
 function readCmudictFile(file) {
     return fs.readFileSync(file).toString();
-    writeToFile(syllableArray, filename.split(".")[0] + ".json");
 }
 
-function writeToFile(obj, filename) {
-  fs.writeFile(filename, JSON.stringify(obj), "utf-8", function(err){
-      if(err) throw err;
-      console.log(filename + " has been saved!");
-  });
-}
-
-function formatData(data) {
+function formatData(data, text) {
     var lines = data.toString().split("\n"),
         syllableArray = [];
 
@@ -42,7 +29,7 @@ function parseLine(line, arr) {
   var word = lineSplit[0];
   var syllables = syllableCount(lineSplit[1]);
 
-  (arr[syllables] = arr[syllables] || []).push(word);
+  (arr[syllables] = arr[syllables] || []).push(word.clean());
 }
 
 function syllableCount(phonemes) {

@@ -7,5 +7,5 @@ function formatOutput(haiku) {
   });
 }
 
-haiku.syllableArraySetup("cmudict.txt");
+haiku.syllableArraySetup("cmudict.txt", null);
 formatOutput(haiku.createHaiku([5,7,5]));

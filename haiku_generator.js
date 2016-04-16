@@ -1,4 +1,6 @@
 var haiku = require('./haiku');
+var cmuDictFile = process.argv[2];
+var textFile = process.argv[3];
 
 function formatOutput(haiku) {
   haiku.forEach(function(line) {
@@ -7,5 +9,5 @@ function formatOutput(haiku) {
   });
 }
 
-haiku.syllableArraySetup("cmudict.txt", null);
+haiku.syllableArraySetup(cmuDictFile, textFile);
 formatOutput(haiku.createHaiku([5,7,5]));

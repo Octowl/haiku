@@ -25,13 +25,15 @@ Array.prototype.equal = function(arr2) {
 
 function setup(dictFile, textFile) {
     syllableArray = formatData(readFile(dictFile), (typeof textFile !== 'undefined'));
-    text = readFile(textFile).split(" ")
-        .map(function(word) {
-            return word.clean()
-        })
-        .filter(function(word) {
-            return word !== ''
-        });
+    if (textFile) {
+        text = readFile(textFile).split(" ")
+            .map(function(word) {
+                return word.clean()
+            })
+            .filter(function(word) {
+                return word !== ''
+            });
+    }
 }
 
 function readFile(file) {

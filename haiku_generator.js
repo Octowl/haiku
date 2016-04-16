@@ -14,7 +14,7 @@ function formatOutput(haiku) {
 haiku.setup(cmuDictFile, textFile);
 
 if (textFile) {
-    haiku.findHaikus().forEach(formatOutput);
+    haiku.findHaikus(formatOutput);
 } else {
     formatOutput(haiku.createHaiku());
 }

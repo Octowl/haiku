@@ -7,29 +7,34 @@ String.prototype.clean = function(){
 }
 
 function syllableArraySetup(dictFile, text){
-  syllableArray = formatData(readCmudictFile(dictFile), text);
+  syllableArray = formatData(readCmudictFile(dictFile), (typeof text !== 'undefined'));
 }
 
 function readCmudictFile(file) {
     return fs.readFileSync(file).toString();
 }
 
-function formatData(data, text) {
+function formatData(data, hasText) {
     var lines = data.toString().split("\n"),
-        syllableArray = [];
+        syllableArray = hasText ? {} : [];
 
     lines.slice(0, -1).forEach(function(line) {
-        parseLine(line, syllableArray);
+        parseLine(line, syllableArray, hasText);
     });
+    console.log(syllableArray);
     return syllableArray;
 }
 
-function parseLine(line, arr) {
+function parseLine(line, obj, hasText) {
   var lineSplit = line.split("  ");
   var word = lineSplit[0];
   var syllables = syllableCount(lineSplit[1]);
 
-  (arr[syllables] = arr[syllables] || []).push(word.clean());
+  if (hasText) {
+    obj[word.clean()] = syllables;
+  } else {
+    (obj[syllables] = obj[syllables] || []).push(word.clean());
+  }
 }
 
 function syllableCount(phonemes) {
